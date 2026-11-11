@@ -1,0 +1,104 @@
+name: Release
+
+# Every push to `main` (and to `dev`, once it exists) builds PORTABLE Windows, Linux and macOS
+# downloads and publishes them on GitHub Releases as the pre-release `v<version>`.
+# The version (v0.0.1-dev1, v0.0.1-dev2, ...) is read from package.json, so to ship a new one
+# bump it in package.json, src-tauri/Cargo.toml and src-tauri/tauri.conf.json first.
+on:
+  push:
+    branches: [main, dev]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.ver.outputs.v }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read version
+        id: ver
+        run: echo "v=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Create or update the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v${{ steps.ver.outputs.v }}"
+          NOTES="Portable test build from the \`${{ github.ref_name }}\` branch. No installer: unzip or copy the file anywhere and run it; settings are saved next to it. See the README."
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --prerelease --notes "$NOTES"
+          else
+            gh release create "$TAG" --target "${{ github.sha }}" --title "SailHighSea VM $TAG" --prerelease --notes "$NOTES"
+          fi
+
+  build:
+    needs: create-release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+            build: npm run tauri -- build --no-bundle
+            src: src-tauri/target/release/sailhighsea-vm.exe
+            asset: SailHighSea-VM_windows-x64.exe
+          - platform: windows-11-arm # Windows on ARM (built natively, no --target needed)
+            build: npm run tauri -- build --no-bundle
+            src: src-tauri/target/release/sailhighsea-vm.exe
+            asset: SailHighSea-VM_windows-arm64.exe
+          - platform: ubuntu-22.04
+            build: npm run tauri -- build --bundles appimage
+            src: src-tauri/target/release/bundle/appimage/*.AppImage
+            asset: SailHighSea-VM_linux-x64.AppImage
+          - platform: macos-latest # Apple Silicon
+            build: npm run tauri -- build --target aarch64-apple-darwin --bundles app
+            src: "src-tauri/target/aarch64-apple-darwin/release/bundle/macos/SailHighSea VM.app"
+            asset: SailHighSea-VM_macos-arm64.zip
+          - platform: macos-15-intel # Intel
+            build: npm run tauri -- build --target x86_64-apple-darwin --bundles app
+            src: "src-tauri/target/x86_64-apple-darwin/release/bundle/macos/SailHighSea VM.app"
+            asset: SailHighSea-VM_macos-x64.zip
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Linux dependencies
+        if: startsWith(matrix.platform, 'ubuntu')
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libgtk-3-dev
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ startsWith(matrix.platform, 'macos') && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - run: npm install
+
+      - name: Build
+        shell: bash
+        run: ${{ matrix.build }}
+
+      - name: Package
+        shell: bash
+        run: |
+          mkdir -p dist
+          case "${{ matrix.asset }}" in
+            *.zip) ditto -c -k --keepParent "${{ matrix.src }}" "dist/${{ matrix.asset }}" ;;
+            *) cp ${{ matrix.src }} "dist/${{ matrix.asset }}" ;;
+          esac
+
+      - name: Upload to the release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "v${{ needs.create-release.outputs.version }}" "dist/${{ matrix.asset }}" --clobber

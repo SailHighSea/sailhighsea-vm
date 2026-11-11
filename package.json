@@ -1,0 +1,14 @@
+{
+  "name": "sailhighsea-vm",
+  "version": "0.0.1-dev1",
+  "private": true,
+  "description": "Voice meter / volume mixer alternative built with Rust + Tauri",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}

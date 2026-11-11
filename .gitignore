@@ -1,0 +1,28 @@
+# dependencies and build output
+node_modules/
+src-tauri/target/
+src-tauri/gen/
+target/
+arget/
+
+# local test builds (the folder itself stays, see test/README.md)
+test/*
+!test/.gitkeep
+!test/README.md
+
+# runtime files the app writes next to the exe
+*.ini
+*.ini.tmp
+debug.log
+crash.log
+
+# secrets and local settings
+.env
+.env.*
+
+# editor and OS junk
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

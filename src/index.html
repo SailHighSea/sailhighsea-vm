@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SailHighSea VM</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="main">
+  <!-- Custom title bar (native decorations are off in tauri.conf.json) -->
+  <div class="titlebar" data-tauri-drag-region>
+    <svg class="applogo" data-tauri-drag-region viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="lbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c2a52"/><stop offset="1" stop-color="#0b1226"/></linearGradient><linearGradient id="lbar" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#35d07f"/><stop offset=".6" stop-color="#4cc2ff"/><stop offset="1" stop-color="#7c6cff"/></linearGradient></defs><rect width="100" height="100" rx="22" fill="url(#lbg)"/><rect x="20" y="46" width="11" height="30" rx="5.5" fill="url(#lbar)"/><rect x="36" y="26" width="11" height="50" rx="5.5" fill="url(#lbar)"/><rect x="52" y="36" width="11" height="40" rx="5.5" fill="url(#lbar)"/><rect x="68" y="54" width="11" height="22" rx="5.5" fill="url(#lbar)"/></svg>
+    <div class="ttl" data-tauri-drag-region>SailHighSea VM <span id="ver">v0.0.1-dev1</span></div>
+    <div class="tabs" id="tabs">
+      <div class="tab on" data-v="mixer">Mixer</div>
+      <div class="tab" data-v="eq">Equalizer &amp; dynamics</div>
+      <div class="tab" data-v="routing">Routing</div>
+      <div class="tab" data-v="settings">Settings</div>
+      <div class="tab" data-v="about">About</div>
+    </div>
+    <div class="drag" data-tauri-drag-region></div>
+    <div class="wc">
+      <div id="wc-min" title="Minimise">&#8212;</div>
+      <div id="wc-max" title="Maximise">&#9633;</div>
+      <div id="wc-close" class="x" title="Close to tray">&#10005;</div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- MIXER -->
+    <div class="view on" id="v-mixer">
+      <div class="mixerbar"><div class="cl-tabs" id="cl-tabs"></div><div class="seg" id="viewmode" title="Mixer layout"><span data-m="cards">Cards</span><span data-m="classic">Classic</span><span data-m="lanes">Lanes</span></div></div>
+      <section id="sec-devices">
+        <h2>Output devices <em id="devcount"></em></h2>
+        <div class="devices" id="devices"></div>
+      </section>
+      <section id="sec-apps">
+        <h2>Applications <em>click outputs to add or remove &middot; &#9733; = plays natively (lowest latency)</em></h2>
+        <div class="apps" id="apps"></div>
+      </section>
+      <section id="classic" class="classic"><div class="board" id="board"><div class="cl-apps" id="cl-apps"></div><div class="cl-sep"></div><div class="cl-master" id="cl-master"></div></div></section>
+      <section id="lanes" class="lanes"></section>
+      <div class="note" id="sec-note">&#9432; <span>Windows can't send one stream to two devices on its own. The &#9733; device plays directly; extra devices receive a captured copy (about 30 ms later) &mdash; compensate with the <b>delay</b> in <i>Fine tune</i>.</span></div>
+    </div>
+
+    <!-- EQUALIZER -->
+    <div class="view" id="v-eq">
+      <div class="eqwrap">
+        <div class="eqlist" id="eq-list"></div>
+        <div class="eqmain">
+          <h2 id="eq-title">Equalizer</h2>
+          <div id="eq-host"></div>
+          <div class="hint" id="eq-empty" hidden>Nothing is playing audio right now. Start an app to equalise it.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROUTING -->
+    <div class="view" id="v-routing">
+      <section>
+        <h2>Routing graph <em>select an app, click a device to mirror to it, right-click a device to make it native</em></h2>
+        <div class="graph" id="graph"><svg id="wires"></svg></div>
+      </section>
+      <div class="hint" id="graphhint">Select an app on the left.</div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="view" id="v-settings">
+      <section style="max-width:560px">
+        <h2>Settings</h2>
+        <div class="card setlist" id="settings"></div>
+      </section>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="view" id="v-about">
+      <section class="about">
+        <div class="abhead">
+          <svg class="ablogo" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="abg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c2a52"/><stop offset="1" stop-color="#0b1226"/></linearGradient><linearGradient id="abb" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#35d07f"/><stop offset=".6" stop-color="#4cc2ff"/><stop offset="1" stop-color="#7c6cff"/></linearGradient></defs><rect width="100" height="100" rx="22" fill="url(#abg)"/><rect x="20" y="46" width="11" height="30" rx="5.5" fill="url(#abb)"/><rect x="36" y="26" width="11" height="50" rx="5.5" fill="url(#abb)"/><rect x="52" y="36" width="11" height="40" rx="5.5" fill="url(#abb)"/><rect x="68" y="54" width="11" height="22" rx="5.5" fill="url(#abb)"/></svg>
+          <div>
+            <div class="abname">SailHighSea VM</div>
+            <div class="abver" id="ab-ver">Version</div>
+            <div class="sub">A lightweight voice meter and volume mixer: per-app volume, multi-device output, equalizer, compressor and gate.</div>
+          </div>
+        </div>
+        <p class="sub abtext">Set the volume of every app and output in one place, and move an app to another output by dragging it. Click extra outputs to mirror an app to several devices at once, with a delay trim to line them up.</p>
+        <p class="sub abtext">Shape an app's sound with the 10-band equalizer, compressor and noise gate. Closing the window keeps the mixer running in the tray; click the tray icon for the quick popup.</p>
+        <div class="card abcard" id="ab-card"></div>
+        <div class="abbtns">
+          <button class="abbtn pri" id="ab-folder">Data folder</button>
+          <button class="abbtn" id="ab-copy">Copy info</button>
+          <button class="abbtn" id="ab-gh">GitHub</button>
+          <button class="abbtn" id="ab-upd">Check for updates</button>
+        </div>
+        <div class="sub" id="ab-upd-msg" aria-live="polite"></div>
+        <div class="sub">Settings and logs are kept next to the program.</div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Status bar -->
+  <div class="statusbar">
+    <div class="sbi" id="engine" title="Engine state"><svg class="ico-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.364 19.364a9 9 0 1 0-12.728 0"/><path d="M15.536 16.536a5 5 0 1 0-7.072 0"/><circle cx="12" cy="13" r="1"/></svg><span>Engine running</span></div>
+    <div class="sep"></div>
+    <div class="sbi" title="Output devices"><svg class="ico-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 15v-3a9 9 0 0 1 18 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg><span id="sb-out"></span></div>
+    <div class="sbi" title="Apps playing audio"><svg class="ico-s" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><span id="sb-apps"></span></div>
+    <div class="sbi" id="sb-delay" title="Mirrored outputs play this much later than the native one" hidden><svg class="ico-s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span></span></div>
+    <div class="sbi ac" id="sb-eq" title="Equalizer is on for an app" hidden><svg class="ico-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h4m4 0h8M4 16h10m4 0h2"/><circle cx="10" cy="8" r="2"/><circle cx="16" cy="16" r="2"/></svg><span>EQ on</span></div>
+    <div class="sbi ac" id="sb-dyn" title="Compressor / noise gate is on for an app" hidden><svg class="ico-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h5v8l4-16v8h9"/></svg><span></span></div>
+    <div class="sp"></div>
+    <div class="sbi" id="sb-vol" title="Default output volume"><svg class="ico-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 8a5 5 0 0 1 0 8"/><path d="M17.7 5a9 9 0 0 1 0 14"/><path d="M6 15H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2l3.5-4.5a.8.8 0 0 1 1.5.5v14a.8.8 0 0 1-1.5.5L6 15"/></svg><span></span></div>
+    <div class="sbi" id="sb-defw" title="Windows default output"><svg class="ico-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17.75l-6.172 3.245 1.179-6.873-5-4.867 6.9-1L12 1.75l3.093 6.253 6.9 1-5 4.867 1.179 6.873z"/></svg><span id="sb-def"></span></div>
+    <div class="sbi" id="sb-themebtn" title="Theme (change in Settings)"><svg class="ico-s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v16"/><path d="M12 4a8 8 0 0 1 0 16z"/></svg><span id="sb-theme"></span></div>
+    <div class="sbi" title="Version"><svg class="ico-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 7.5h.01"/><path d="M3 6v5.172a2 2 0 0 0 .586 1.414l7.71 7.71a2.41 2.41 0 0 0 3.408 0l5.592-5.592a2.41 2.41 0 0 0 0-3.408l-7.71-7.71A2 2 0 0 0 11.172 3H6a3 3 0 0 0-3 3z"/></svg><span id="sb-ver"></span></div>
+  </div>
+  <script src="core.js"></script>
+  <script src="main.js"></script>
+  <script src="scroll.js"></script>
+</body>
+</html>

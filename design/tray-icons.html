@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mockup – App icon + mono tray icon</title>
+<style>
+:root{--bg:#0b0e14;--card:#151a25;--line:#232a3b;--text:#e9edf5;--dim:#8892a8;--accent:#4cc2ff;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(900px 500px at 70% -10%,#1d2a52 0%,transparent 60%),var(--bg);color:var(--text);
+  font:14px/1.4 "Segoe UI Variable","Segoe UI",system-ui,sans-serif;padding:28px;max-width:1200px;margin-inline:auto}
+h1{font-size:18px;margin:0 0 4px}.sub{color:var(--dim);font-size:13px;margin-bottom:22px;max-width:760px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:14px;cursor:pointer;transition:.12s}
+.card:hover{border-color:#2f3850}.card.on{border-color:var(--accent);box-shadow:0 0 0 3px rgba(76,194,255,.14)}
+.name{font-weight:600}.desc{color:var(--dim);font-size:12px;margin-top:-8px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pane{border-radius:12px;border:1px solid var(--line);padding:12px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.pane small{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.pane.col{background:#0e1219}
+.pane.dk{background:#1f1f1f;color:#fff}
+.pane.lt{background:#f3f3f3;color:#1a1a1a}
+.pane.lt small{color:#6a6a6a}
+.row{display:flex;align-items:flex-end;gap:12px}
+.big svg{width:96px;height:96px;filter:drop-shadow(0 8px 18px #0008)}
+.mono{width:72px;height:72px}
+.spacer{flex:1}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:16px}
+.panel h3{margin:0 0 12px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.trays{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.trays{grid-template-columns:1fr}}
+.bar{display:flex;align-items:center;justify-content:flex-end;gap:16px;border-radius:10px;padding:10px 16px;font-size:12px;height:44px}
+.bar.dk{background:#202020;color:#fff}
+.bar.lt{background:#f3f3f3;color:#1a1a1a}
+.bar svg{width:20px;height:20px;display:block}
+.bar .hl{background:rgba(127,127,127,.28);border-radius:6px;padding:4px;display:grid;place-items:center}
+.states{display:flex;gap:26px;align-items:center;flex-wrap:wrap}
+.state{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--dim)}
+.state svg{width:48px;height:48px}
+ul{margin:0;padding-left:18px;color:var(--dim);font-size:13px}li{margin:4px 0}b{color:var(--text)}
+</style>
+</head>
+<body>
+<h1>SailHighSea VM – app icon + mono tray icon</h1>
+<div class="sub">Each concept has a full-colour app icon (installer, taskbar, window) and a single-colour tray glyph that uses only <code>currentColor</code>, so it can be white on a dark taskbar and black on a light one. Click a concept to preview it in the tray bars below.</div>
+
+<svg width="0" height="0" style="position:absolute">
+<defs>
+  <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4cc2ff"/><stop offset="1" stop-color="#7c6cff"/></linearGradient>
+  <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c2a52"/><stop offset="1" stop-color="#0b1226"/></linearGradient>
+  <linearGradient id="g3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#35d07f"/><stop offset=".6" stop-color="#4cc2ff"/><stop offset="1" stop-color="#7c6cff"/></linearGradient>
+
+  <!-- ===== full colour app icons ===== -->
+  <symbol id="c1" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="url(#g2)"/>
+    <rect x="20" y="46" width="11" height="30" rx="5.5" fill="url(#g3)"/><rect x="36" y="26" width="11" height="50" rx="5.5" fill="url(#g3)"/>
+    <rect x="52" y="36" width="11" height="40" rx="5.5" fill="url(#g3)"/><rect x="68" y="54" width="11" height="22" rx="5.5" fill="url(#g3)"/></symbol>
+  <symbol id="c2" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="url(#g1)"/>
+    <rect x="43" y="16" width="14" height="68" rx="7" fill="#0b1226" opacity=".35"/><rect x="26" y="38" width="48" height="22" rx="8" fill="#fff"/>
+    <rect x="34" y="47.5" width="32" height="3" rx="1.5" fill="#4a5bd8"/></symbol>
+  <symbol id="c3" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="url(#g2)"/>
+    <path d="M50 16 L50 62 L24 62 Z" fill="url(#g1)"/><path d="M54 26 L54 62 L76 62 Z" fill="#e9edf5" opacity=".9"/>
+    <path d="M14 72 q9 -8 18 0 t18 0 t18 0 t18 0" fill="none" stroke="#4cc2ff" stroke-width="5" stroke-linecap="round"/>
+    <path d="M14 84 q9 -8 18 0 t18 0 t18 0 t18 0" fill="none" stroke="#7c6cff" stroke-width="5" stroke-linecap="round" opacity=".7"/></symbol>
+  <symbol id="c4" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="url(#g2)"/>
+    <circle cx="38" cy="50" r="22" fill="none" stroke="url(#g1)" stroke-width="7"/><circle cx="62" cy="50" r="22" fill="none" stroke="#35d07f" stroke-width="7" opacity=".9"/>
+    <circle cx="50" cy="50" r="6" fill="#e9edf5"/></symbol>
+  <symbol id="c5" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="url(#g1)"/>
+    <g fill="#fff"><rect x="21" y="43" width="7" height="14" rx="3.5"/><rect x="33" y="33" width="7" height="34" rx="3.5"/><rect x="46.5" y="22" width="7" height="56" rx="3.5"/>
+    <rect x="60" y="33" width="7" height="34" rx="3.5"/><rect x="72" y="43" width="7" height="14" rx="3.5"/></g></symbol>
+  <symbol id="c6" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="url(#g2)"/>
+    <path d="M22 40 h14 l18 -14 v48 l-18 -14 h-14 z" fill="url(#g1)"/>
+    <path d="M66 38 q10 12 0 24" fill="none" stroke="#35d07f" stroke-width="6" stroke-linecap="round"/>
+    <path d="M76 28 q18 22 0 44" fill="none" stroke="#4cc2ff" stroke-width="6" stroke-linecap="round" opacity=".8"/></symbol>
+
+  <!-- ===== mono tray glyphs: transparent background, currentColor only, strokes >= 10 units (=1.6 px at 16 px) ===== -->
+  <symbol id="m1" viewBox="0 0 100 100" fill="currentColor">
+    <rect x="12" y="46" width="15" height="40" rx="7.5"/><rect x="33" y="14" width="15" height="72" rx="7.5"/>
+    <rect x="54" y="30" width="15" height="56" rx="7.5"/><rect x="75" y="56" width="15" height="30" rx="7.5"/></symbol>
+  <symbol id="m2" viewBox="0 0 100 100" fill="currentColor">
+    <rect x="43" y="8" width="14" height="84" rx="7" opacity=".45"/><rect x="18" y="34" width="64" height="32" rx="11"/>
+    <rect x="30" y="47" width="40" height="6" rx="3" fill="#000" opacity=".0"/></symbol>
+  <symbol id="m3" viewBox="0 0 100 100" fill="currentColor">
+    <path d="M48 8 L48 62 L14 62 Z"/><path d="M56 22 L56 62 L84 62 Z" opacity=".6"/>
+    <path d="M8 78 q10.5 -10 21 0 t21 0 t21 0 t21 0" fill="none" stroke="currentColor" stroke-width="11" stroke-linecap="round"/></symbol>
+  <symbol id="m4" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="11">
+    <circle cx="35" cy="50" r="26"/><circle cx="65" cy="50" r="26" opacity=".6"/></symbol>
+  <symbol id="m5" viewBox="0 0 100 100" fill="currentColor">
+    <rect x="8" y="40" width="13" height="20" rx="6.5"/><rect x="26" y="26" width="13" height="48" rx="6.5"/><rect x="44" y="8" width="13" height="84" rx="6.5"/>
+    <rect x="62" y="26" width="13" height="48" rx="6.5"/><rect x="80" y="40" width="13" height="20" rx="6.5"/></symbol>
+  <symbol id="m6" viewBox="0 0 100 100" fill="currentColor">
+    <path d="M10 38 h20 l24 -22 v68 l-24 -22 h-20 z"/>
+    <path d="M68 36 q12 14 0 28" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+    <path d="M80 22 q20 28 0 56" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" opacity=".6"/></symbol>
+
+  <!-- muted: same glyph + diagonal slash with a gap (mask) -->
+  <mask id="slashmask"><rect width="100" height="100" fill="#fff"/><path d="M14 90 L90 10" stroke="#000" stroke-width="22" stroke-linecap="round"/></mask>
+</defs>
+</svg>
+
+<div class="grid" id="grid"></div>
+
+<div class="panel">
+  <h3>In the notification area</h3>
+  <div class="trays">
+    <div><div class="sub" style="margin-bottom:8px">Dark taskbar (glyph is white)</div><div class="bar dk"><span>ENG</span><span class="hl" id="t1"></span><span id="t1b"></span><span>16:42</span></div></div>
+    <div><div class="sub" style="margin-bottom:8px">Light taskbar (glyph is black)</div><div class="bar lt"><span>ENG</span><span class="hl" id="t2"></span><span id="t2b"></span><span>16:42</span></div></div>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>Tray states for the selected concept (mono, 48 px zoom)</h3>
+  <div class="states" id="states"></div>
+</div>
+
+<div class="panel">
+  <h3>Delivery notes</h3>
+  <ul>
+    <li><b>Windows:</b> ship the mono glyph as white and black PNG/ICO sets (16, 20, 24, 32 px at 100–200 % scaling) and pick one by reading <code>AppsUseLightTheme</code> from the registry, switching live when it changes.</li>
+    <li><b>macOS:</b> ship one black-with-alpha PNG and mark it as a template image (Tauri: <code>icon_as_template(true)</code>) so the menu bar tints it for light, dark and highlighted states.</li>
+    <li><b>Linux:</b> use the same black/white pair; many panels (GNOME, KDE) prefer a symbolic icon named <code>…-symbolic</code>.</li>
+    <li><b>Rules for the glyph:</b> one colour, no gradients, no outer tile, strokes at least 1.5 px at 16 px, 1 px empty margin. Opacity steps (60 %) are fine because they stay one-colour.</li>
+    <li><b>States:</b> normal, muted (slash), and an optional small dot for "equalizer or mirror active". The full-colour icon is only used for the executable, installer and taskbar.</li>
+  </ul>
+</div>
+
+<script>
+const ideas=[
+ ['1','Equalizer','Four rounded bars. Most recognisable at 16 px and matches the in-app logo.'],
+ ['2','Fader','One mixer fader with a wide knob. Clean silhouette, reads as "volume mixer".'],
+ ['3','Sail & wave','Two sails over a wave: carries the SailHighSea name; the wave line stays crisp at 16 px.'],
+ ['4','Two outputs','Two overlapping rings for multi-device output. Abstract but distinctive.'],
+ ['5','Waveform','Symmetrical bars. Friendly, balanced, very "audio".'],
+ ['6','Speaker + level','Conventional speaker glyph with two arcs. Least brand, but instantly clear in a tray full of icons.'],
+];
+const col=n=>`<svg viewBox="0 0 100 100"><use href="#c${n}"/></svg>`;
+const mono=(n,extra='')=>`<svg viewBox="0 0 100 100" ${extra}><use href="#m${n}"/></svg>`;
+const grid=document.getElementById('grid');
+ideas.forEach(([n,name,desc],i)=>{
+  const c=document.createElement('div');c.className='card'+(i===0?' on':'');
+  c.innerHTML=`<div class="pair">
+    <div class="pane col"><small>App icon</small><div class="big">${col(n)}</div>
+      <div class="row">${[48,32,24,16].map(s=>`<svg width="${s}" height="${s}" viewBox="0 0 100 100"><use href="#c${n}"/></svg>`).join('')}</div></div>
+    <div class="pane dk"><small style="color:#aaa">Tray · dark</small><svg class="mono" viewBox="0 0 100 100"><use href="#m${n}"/></svg>
+      <div class="row">${[32,24,20,16].map(s=>`<svg width="${s}" height="${s}" viewBox="0 0 100 100"><use href="#m${n}"/></svg>`).join('')}</div></div>
+  </div>
+  <div class="pane lt" style="flex-direction:row;justify-content:space-between"><small>Tray · light</small>
+    <div class="row" style="align-items:center">${[32,24,20,16].map(s=>`<svg width="${s}" height="${s}" viewBox="0 0 100 100"><use href="#m${n}"/></svg>`).join('')}</div></div>
+  <div class="name">${n}. ${name}</div><div class="desc">${desc}</div>`;
+  c.onclick=()=>{document.querySelectorAll('.card').forEach(x=>x.classList.remove('on'));c.classList.add('on');sel(n)};
+  grid.append(c);
+});
+function sel(n){
+  const s=mono(n);
+  const t=(id,html)=>document.getElementById(id).innerHTML=html;
+  t('t1',s);t('t2',s);
+  t('t1b','<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 4V5L7 9z"/><path d="M16 8a5 5 0 0 1 0 8" fill="none" stroke="currentColor" stroke-width="2"/></svg>');
+  t('t2b','<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 4V5L7 9z"/><path d="M16 8a5 5 0 0 1 0 8" fill="none" stroke="currentColor" stroke-width="2"/></svg>');
+  const st=[
+   ['Normal',`<svg viewBox="0 0 100 100"><use href="#m${n}"/></svg>`],
+   ['Muted',`<svg viewBox="0 0 100 100"><g mask="url(#slashmask)"><use href="#m${n}" opacity=".55"/></g><path d="M16 88 L88 12" stroke="currentColor" stroke-width="9" stroke-linecap="round"/></svg>`],
+   ['EQ / mirror active',`<svg viewBox="0 0 100 100"><use href="#m${n}"/><circle cx="86" cy="86" r="14" fill="#35d07f" stroke="#1f1f1f" stroke-width="4"/></svg>`],
+   ['Disabled / idle',`<svg viewBox="0 0 100 100" opacity=".4"><use href="#m${n}"/></svg>`],
+  ];
+  t('states',st.map(([l,svg])=>`<div class="state"><div style="background:#1f1f1f;color:#fff;border-radius:10px;padding:12px">${svg}</div>${l}</div>`+
+     `<div class="state"><div style="background:#f3f3f3;color:#1a1a1a;border-radius:10px;padding:12px">${svg.replace('#1f1f1f','#f3f3f3')}</div>${l}</div>`).join(''));
+}
+sel('1');
+</script>
+</body>
+</html>

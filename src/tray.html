@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Volume Mixer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="popup">
+  <div class="ph"><svg class="applogo" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="lbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c2a52"/><stop offset="1" stop-color="#0b1226"/></linearGradient><linearGradient id="lbar" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#35d07f"/><stop offset=".6" stop-color="#4cc2ff"/><stop offset="1" stop-color="#7c6cff"/></linearGradient></defs><rect width="100" height="100" rx="22" fill="url(#lbg)"/><rect x="20" y="46" width="11" height="30" rx="5.5" fill="url(#lbar)"/><rect x="36" y="26" width="11" height="50" rx="5.5" fill="url(#lbar)"/><rect x="52" y="36" width="11" height="40" rx="5.5" fill="url(#lbar)"/><rect x="68" y="54" width="11" height="22" rx="5.5" fill="url(#lbar)"/></svg><div class="nm">Volume mixer</div><div class="hintp">Drag apps to move them</div><div class="ib" id="profbtn" role="button" tabindex="0" title="Apply a profile" aria-label="Apply a profile"><svg class="ico-s" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg></div><div class="ib" id="full" role="button" tabindex="0" title="Open full mixer" aria-label="Open full mixer"><svg class="ico-s" viewBox="0 0 24 24"><path d="M12 6H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-5M11 13l9-9M15 4h5v5"/></svg></div></div>
+  <div class="pbody" id="pbody"></div>
+  <script src="core.js"></script>
+  <script src="tray.js"></script>
+  <script src="scroll.js"></script>
+</body>
+</html>
